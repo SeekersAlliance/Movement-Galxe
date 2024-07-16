@@ -1,0 +1,157 @@
+html,
+body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	color: #FFFFFF;
+	font-size: 16px;
+	font-family: Arial, sans-serif;
+	background-color: #000000;
+}
+
+img {
+	border: 0px;
+}
+
+a {
+	display: contents;
+}
+
+a,
+a:hover,
+a:active {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.bgsize {
+	background-size: 100% auto;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+
+#index, #faction, .choose,
+.container-block {
+	width: 100%;
+	height: auto;
+	min-width: 1000px;
+	max-height: 100vh;
+	aspect-ratio: 16 / 9;
+	background-color: black;
+}
+
+  .logo {
+	width: 16%;
+	max-width: 301px;
+	position: absolute;
+	top: 2%;
+	left: 2%;
+  }
+
+
+.page-title {
+	width: 100%;
+	height: fit-content;
+	padding: 4vw 0 1vw;
+	text-align: center;
+}
+
+.page-title img {
+	width: 89.165%;
+	height: auto;
+	max-width: 1712px;
+	max-height: 94px;
+}
+
+
+/* --------------------- choosed ----------------------------*/
+.choose {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: flex-start;
+  }
+  
+  .choose-content {
+	width: 100%;
+	height: fit-content;
+	margin-top: 1vw;
+	display: contents;
+	position: relative;
+  }
+
+  .choose-box {
+	width: 100%;
+	height: fit-content;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+
+  }
+  .choose-box img {
+	width: 28%;
+	cursor: pointer;
+  }
+  .choose-box img:first-child {
+	margin-right: 4vw;
+  }
+
+  .popup {
+	width: 54vw;
+	height: auto;
+	aspect-ratio: 1068/677;
+	max-width: 1068px;
+	max-height: 677px;
+	margin-top: 4%;
+	background-image: url("./img/popup.jpg");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 100% auto;
+	  display: none;
+	  grid-template-rows: 72% 25%;
+	  grid-template-columns: 100%;
+	align-self: center;
+	position: absolute;
+	overflow: hidden;
+	z-index: 99;
+  }
+  .popup div {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+  .popup img {
+	width: 9.18%;
+	height: auto;
+	max-width: 98px;
+	max-height: 98px;
+	aspect-ratio: 1/1;
+  }
+  .popup img:first-child {
+	margin-right: 2%;
+  }
+
+  /* ------------------------ choosed end ----------------------*/
+
+
+
+@media screen and (max-width: 1000px) {
+	.page-title img {
+		width: 891.65px;
+		height: 48.957px;
+	}
+}
+
+@media (max-aspect-ratio: 192 / 98) {
+	.content {
+	  width: 100%;
+	  height: auto;
+	}
+  }
+  @media (min-aspect-ratio: 192 / 98) {
+	.content {
+	  width: auto;
+	  height: 100vh;
+	}
+  }
