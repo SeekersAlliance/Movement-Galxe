@@ -5,7 +5,7 @@ import React from 'react'
 import { useRouter } from "next/navigation";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { Account, Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
-const partyContractAddress = "0x9cd5227ba33c15e6b2b0cb091ba3e79d3643d4189e83affae1ddedeb00c42d56"
+import { partyContractAddress } from '../_utils/helper';
 
 const Home = () => {
   const router = useRouter();

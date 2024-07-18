@@ -5,7 +5,7 @@ import React from 'react'
 import { useRouter } from "next/navigation";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { Account, Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
-const nftContractAddress = "0x062c3ff1d35c88e2e4c04bc25b87063d472e86d9f46b3c1f92b777af932952b9"
+import { nftContractAddress } from '../_utils/helper';
 
 
 const Home = () => {

@@ -49,7 +49,7 @@ module nft::nft{
    }
 
    struct History has key {
-      history: Table<address, bool>,
+      history: Table<address, u64>,
    }
 
 
@@ -166,7 +166,7 @@ module nft::nft{
             signer::address_of(sender),
         );
 
-        table::upsert(&mut borrow_global_mut<History>(@nft).history, address_of(sender), true);
+        table::upsert(&mut borrow_global_mut<History>(@nft).history, address_of(sender), id);
 
         /* object::object_from_constructor_ref(&token_constructor_ref) */
         
@@ -208,6 +208,28 @@ module nft::nft{
         );
 
 
+    }
+    #[view]
+    public fun get_mint_NFT(sender: address):string::String acquires History {
+
+        let history = borrow_global<History>(@nft);
+        let nft_id:u64 = *table::borrow_with_default(&history.history, sender, &99);
+       
+        if(nft_id==0){
+            return string::utf8(b"Agent K9")
+        }else if(nft_id==1){
+            return string::utf8(b"Officer Katz")
+        }else if(nft_id==2){
+            return string::utf8(b"Juvenile Punk")
+        }else if(nft_id==3){
+            return string::utf8(b"Cyborg-Gunner")
+        }else if(nft_id==4){
+            return string::utf8(b"Dragonkin Scout")
+        }else if(nft_id==5){
+            return string::utf8(b"Princess Erato")
+        }else{
+            return string::utf8(b"NOT FOUND")
+        }
     }
 
 
