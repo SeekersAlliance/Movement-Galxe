@@ -1,11 +1,58 @@
+// @ts-nocheck
 'use client';
 import Link from 'next/link'
 import React from 'react'
+import { useRouter } from "next/navigation";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { Account, Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
+const nftContractAddress = "0x062c3ff1d35c88e2e4c04bc25b87063d472e86d9f46b3c1f92b777af932952b9"
+
 
 const Home = () => {
   const [popup, setPopup] = React.useState(false)
+  const router = useRouter();
+  const {
+    connect,
+    account,
+    network,
+    connected,
+    wallet,
+    wallets,
+    signAndSubmitTransaction,
+  } = useWallet();
+  const config = new AptosConfig({ network: Network.TESTNET });
+  const aptos = new Aptos(config);
+
+  React.useEffect(() => {
+    if(connected == false) {
+      router.push("/");
+    }
+  }, [connected])
+
   const handleChooseNFT = async (idx: number) => {
     if(popup) return
+
+    const transaction:InputTransactionData = {
+      data: {
+      // All transactions on Aptos are implemented via smart contracts.
+      function: `${nftContractAddress}::nft::mint`,
+      functionArguments: ["Movement-Galxe", idx],
+      },
+    };
+    console.log(transaction);
+    const response = await signAndSubmitTransaction(transaction).catch (error => {
+      console.log("error",error);
+      window.alert("Please try again. Maybe you are already mint the NFT.");
+      router.push("/");
+    });
+    console.log(response);
+    await aptos.waitForTransaction({transactionHash:response.hash}).catch (error => {
+      console.log("error",error);
+    });
+
+
+
+
     setPopup(true)
   }
   return (
@@ -17,8 +64,8 @@ const Home = () => {
       </div>
       <div className="choose-content">
         <div className="choose-box">
-          <img onClick={()=>handleChooseNFT(2)} src="./img/vdl_m.png" />
-          <img onClick={()=>handleChooseNFT(3)} src="./img/vdl_f.png" />
+          <img onClick={()=>handleChooseNFT(0)} src="./img/vdl_m.png" />
+          <img onClick={()=>handleChooseNFT(1)} src="./img/vdl_f.png" />
         </div>
         <div className="popup" style={{display:popup?"grid":"none"}}>
           <div></div>

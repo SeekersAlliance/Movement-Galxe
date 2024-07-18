@@ -1,12 +1,38 @@
+// @ts-nocheck
 'use client';
 import Image from "next/image";
 import Link from 'next/link'
 import { useRouter } from "next/navigation";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { Account, Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
+
+
 
 export default function Home() {
   const router = useRouter();
+  const {
+    connect,
+    account,
+    network,
+    connected,
+    wallet,
+    wallets,
+  } = useWallet();
+
 
   const handleConnectWallet = async () => {
+    let petra = wallets?.filter((w) => w.name == "Petra")[0];
+    console.log(petra.readyState);
+    if(connected) {
+      console.log("connected");
+      router.push("/faction");
+    }
+    if (petra.readyState == "NotDetected") {
+      window.alert("Petra wallet not found");
+      window.open("https://chromewebstore.google.com/detail/petra-aptos-wallet/ejjladinnckdgjemekebdpeokbikhfci", "_blank");
+      return
+    }
+    await connect(petra?.name);
     router.push("/faction");
   }
   return (

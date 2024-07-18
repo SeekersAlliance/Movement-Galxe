@@ -101,7 +101,8 @@ module nft::nft{
 
     public entry fun mint(sender: &signer, content: string::String, id: u64) acquires ResourceCap, History {
         let minted = table::contains(&borrow_global<History>(@nft).history, address_of(sender));
-        assert!(!minted, error::permission_denied(ALREADY_MINTED));
+        // TEST
+        /* assert!(!minted, error::permission_denied(ALREADY_MINTED)); */
         assert!(id < 6, error::invalid_argument(NFT_NOT_FOUND));
 
         let resource_cap = &borrow_global<ResourceCap>(account::create_resource_address(

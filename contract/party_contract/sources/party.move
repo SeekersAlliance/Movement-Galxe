@@ -53,7 +53,8 @@ module party::party{
         assert!(faction_id > 0 && faction_id < 4, error::invalid_argument(FACTION_NOT_FOUND));
 
         let factions = borrow_global_mut<Factions>(@party);
-        assert!(table::contains(&factions.faction, address_of(sender))==false, error::permission_denied(ALREADY_PARTICIPATED));
+        // TEST
+        /* assert!(table::contains(&factions.faction, address_of(sender))==false, error::permission_denied(ALREADY_PARTICIPATED)); */
         table::upsert(&mut factions.faction, address_of(sender), faction_id);
         let counter = *table::borrow_with_default(&factions.faction_counter, faction_id, &0);
         table::upsert(&mut factions.faction_counter, faction_id, counter+1);
@@ -69,11 +70,19 @@ module party::party{
 
 
     #[view]
-    public fun get_faction(sender: address):u64 acquires Factions {
+    public fun get_faction(sender: address):string::String acquires Factions {
 
         let factions = borrow_global<Factions>(@party);
         let fraction_id:u64 = *table::borrow_with_default(&factions.faction, sender, &0);
-        fraction_id
+        if(fraction_id == 1){
+            return string::utf8(b"VAN DER LECK FAMILY")
+        }else if(fraction_id == 2){
+            return string::utf8(b"HOUSE GALAHAD")
+        }else if(fraction_id == 3){
+            return string::utf8(b"MAHDIA ALLIANCE")
+        }else{
+            return string::utf8(b"NOT FOUND")
+        }
     }
     #[view]
     public fun get_faction_counter(faction_id: u64):u64 acquires Factions {
