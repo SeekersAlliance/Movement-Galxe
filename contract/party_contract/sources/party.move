@@ -25,6 +25,7 @@ module party::party{
 
     struct Factions has key {
         faction: Table<address, u64>,
+        player_name: Table<address, string::String>,
         faction_counter: Table<u64, u64>
     }
 
@@ -32,6 +33,11 @@ module party::party{
     struct ParticipateEvent has drop, store {
         owner: address,
         faction_id: u64,
+    }
+    #[event]
+    struct UpdatePlayerNameEvent has drop, store {
+        owner: address,
+        name: string::String
     }
 
 
@@ -44,6 +50,7 @@ module party::party{
         
         let factions = Factions{
             faction: table::new(),
+            player_name: table::new(),
             faction_counter: table::new()
         };
         move_to(sender, factions);
@@ -66,6 +73,17 @@ module party::party{
             }
         );
 
+    }
+    public entry fun update_player_name(sender: &signer, name: string::String) acquires Factions {
+        let factions = borrow_global_mut<Factions>(@party);
+        table::upsert(&mut factions.player_name, address_of(sender), name);
+
+        event::emit(
+            UpdatePlayerNameEvent{
+                owner: signer::address_of(sender),
+                name
+            }
+        );
     }
 
 
@@ -90,6 +108,19 @@ module party::party{
         let factions = borrow_global<Factions>(@party);
         let nft_id:u64 = *table::borrow_with_default(&factions.faction_counter, faction_id, &0);
         nft_id
+    }
+    #[view]
+    public fun get_player_name(sender: address):string::String acquires Factions {
+
+        let factions = borrow_global<Factions>(@party);
+        let name = *table::borrow_with_default(&factions.player_name, sender, &string::utf8(b"NOT FOUND"));
+        name
+    }
+    #[view]
+    public fun check_player_enroll_name(sender: address):bool acquires Factions {
+
+        let factions = borrow_global<Factions>(@party);
+        table::contains(&factions.player_name, sender)
     }
 
     
@@ -125,6 +156,19 @@ module party::party{
             participate(seller, 4);
             
     }
+    #[test(admin = @0x2, buyer = @0x3, seller = @0x4)]
+    public fun test_update_player_name(admin: &signer, buyer: &signer, seller: &signer) acquires Factions {
+            
+            init_module(admin);
+            update_player_name(buyer, string::utf8(b"K9"));
+            let name = get_player_name(address_of(buyer));
+            assert!(name == string::utf8(b"K9"), 1);
+            let name = get_player_name(address_of(seller));
+            assert!(name == string::utf8(b"NOT FOUND"), 2);
+            assert!(check_player_enroll_name(address_of(buyer)), 3);
+            assert!(check_player_enroll_name(address_of(seller))==false, 4);
+    }
+    
     
 
 
