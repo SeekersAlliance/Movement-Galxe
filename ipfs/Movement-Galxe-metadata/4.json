@@ -1,0 +1,31 @@
+{
+    "name": "Seekers Alliance #005",
+    "description": "Demo NFTs for Movement Galxe campaign.\n\n\"100 Bounty Cards, infinite paths to victory!\"",
+    "image": "ipfs://QmdASFxg394jSE7m4GkQbKLHdbAXwuasAD5GoHeiNhvDLe/4.png",
+    "attributes": [
+        {
+            "trait_type": "Name",
+            "value": "Dragonkin Scout"
+        },
+        {
+            "trait_type": "Faction",
+            "value": "Mahdia"
+        },
+        {
+            "trait_type": "Race",
+            "value": "Dragonborn"
+        },
+         {
+            "trait_type": "Weapon",
+            "value": "Silvermoon Longbow"
+        },
+        {
+            "trait_type": "Gear",
+            "value": "Ranger's Garb"
+        },
+        {
+            "trait_type": "Accessory",
+            "value": "Feathered Bycocket"
+        }
+    ]
+}

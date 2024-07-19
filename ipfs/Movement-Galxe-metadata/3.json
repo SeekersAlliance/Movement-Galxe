@@ -1,0 +1,31 @@
+{
+    "name": "Seekers Alliance #004",
+    "description": "Demo NFTs for Movement Galxe campaign.\n\n\"100 Bounty Cards, infinite paths to victory!\"",
+    "image": "ipfs://QmdASFxg394jSE7m4GkQbKLHdbAXwuasAD5GoHeiNhvDLe/3.png",
+    "attributes": [
+        {
+            "trait_type": "Name",
+            "value": "Cyborg-Gunner"
+        },
+        {
+            "trait_type": "Faction",
+            "value": "Galahad"
+        },
+        {
+            "trait_type": "Race",
+            "value": "Cyborg"
+        },
+         {
+            "trait_type": "Weapon",
+            "value": "Stinger Pistol"
+        },
+        {
+            "trait_type": "Gear",
+            "value": "Enhanced Bionics"
+        },
+        {
+            "trait_type": "Accessory",
+            "value": "Platinum Earrings"
+        }
+    ]
+}

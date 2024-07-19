@@ -29,9 +29,9 @@ module nft::nft{
 
     const CollectionName: vector<u8> = b"Seekers Alliance";
 
-    const CollectionURI: vector<u8> = b"ipfs://QmWmgfYhDWjzVheQyV2TnpVXYnKR25oLWCB2i9JeBxsJbz";
+    const CollectionURI: vector<u8> = b"ipfs://QmaUpTqFz6eM3Zcpeg9ZJee81ZzA1xi3iURB3DBsSVzJeL";
 
-    const TokenURI: vector<u8> = b"ipfs://bafybeiearr64ic2e7z5ypgdpu2waasqdrslhzjjm65hrsui2scqanau3ya/";
+    const TokenURI: vector<u8> = b"ipfs://QmaUpTqFz6eM3Zcpeg9ZJee81ZzA1xi3iURB3DBsSVzJeL/";
 
 
     struct ResourceCap has key {

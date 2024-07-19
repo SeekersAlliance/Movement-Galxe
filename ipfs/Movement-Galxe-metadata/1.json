@@ -1,0 +1,31 @@
+{
+    "name": "Seekers Alliance #002",
+    "description": "Demo NFTs for Movement Galxe campaign.\n\n\"100 Bounty Cards, infinite paths to victory!\"",
+    "image": "ipfs://QmdASFxg394jSE7m4GkQbKLHdbAXwuasAD5GoHeiNhvDLe/1.png",
+    "attributes": [
+        {
+            "trait_type": "Name",
+            "value": "Officer Katz"
+        },
+        {
+            "trait_type": "Faction",
+            "value": "Van der Leck"
+        },
+        {
+            "trait_type": "Race",
+            "value": "Furry"
+        },
+         {
+            "trait_type": "Weapon",
+            "value": "Scouter Visor"
+        },
+        {
+            "trait_type": "Gear",
+            "value": "Admiral Uniform"
+        },
+        {
+            "trait_type": "Accessory",
+            "value": "Galxe Notebook"
+        }
+    ]
+}
