@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useRouter } from "next/navigation";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { Account, Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
+import React from "react";
+import { disconnect } from "process";
 
 
 
@@ -12,6 +14,7 @@ export default function Home() {
   const router = useRouter();
   const {
     connect,
+    disconnect,
     account,
     network,
     connected,
@@ -19,21 +22,38 @@ export default function Home() {
     wallets,
   } = useWallet();
 
+  React.useEffect(() => {
+    const checkTestnet = async () => {
+      if(network == null) return;
+      if (network?.name != "testnet") {
+        window.alert("Please connect to testnet.");
+        await disconnect();
+        router.push("/");
+      }else{
+        router.push("/faction");
+      }
+    };
+    checkTestnet();
+    
+  }
+  , [network]);
+
 
   const handleConnectWallet = async () => {
     let petra = wallets?.filter((w) => w.name == "Petra")[0];
-    console.log(petra.readyState);
-    if(connected) {
+    console.log(petra);
+    console.log(network);
+    
+    if(connected && network.name == "testnet") {
       console.log("connected");
       router.push("/faction");
     }
     if (petra.readyState == "NotDetected") {
-      window.alert("Petra wallet not found");
+      window.alert("Petra wallet not found.");
       window.open("https://chromewebstore.google.com/detail/petra-aptos-wallet/ejjladinnckdgjemekebdpeokbikhfci", "_blank");
       return
     }
-    await connect(petra?.name);
-    router.push("/faction");
+    let res = await connect(petra?.name);
   }
   return (
     <div id="index" className="container-block bgsize">

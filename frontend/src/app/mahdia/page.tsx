@@ -5,9 +5,11 @@ import React from 'react'
 import { useRouter } from "next/navigation";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { Account, Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
-import { partyContractAddress } from '../_utils/helper';
+import { nftContractAddress } from '../_utils/helper';
+
 
 const Home = () => {
+  const [popup, setPopup] = React.useState(false)
   const router = useRouter();
   const {
     connect,
@@ -27,13 +29,14 @@ const Home = () => {
     }
   }, [connected])
 
-  const handleChooseFaction = async (faction_idx: number) => {
+  const handleChooseNFT = async (idx: number) => {
+    if(popup) return
 
     const transaction:InputTransactionData = {
       data: {
       // All transactions on Aptos are implemented via smart contracts.
-      function: `${partyContractAddress}::party::participate`,
-      functionArguments: [faction_idx],
+      function: `${nftContractAddress}::nft::mint`,
+      functionArguments: ["Movement-Galxe", idx],
       },
     };
     console.log(transaction);
@@ -49,25 +52,30 @@ const Home = () => {
       console.log("error",error);
     });
 
-    if(faction_idx == 1) {
-      router.push("/vanderleck");
-    }else if(faction_idx == 2) {
-      router.push("/galahad");
-    }else if(faction_idx == 3) {
-      router.push("/mahdia");
-    }
+
+
+
+    setPopup(true)
   }
   return (
     <>
-    <div id="faction" className="container-block bgsize">
+    <div className="choose container-block bgsize">
       <img className="logo" src="./img/logo.png" />
       <div className="page-title">
-        <img src="./img/title2.png" />
+        <img src="./img/title3.png" />
       </div>
-      <div className="faction-card-box">
-        <a onClick={()=>handleChooseFaction(1)}><img src="./img/vdl.png" /></a>
-        <a onClick={()=>handleChooseFaction(2)}><img src="./img/glh.png" /></a>
-        <a onClick={()=>handleChooseFaction(3)}><img src="./img/mda.png" /></a>
+      <div className="choose-content">
+        <div className="choose-box">
+          <img onClick={()=>handleChooseNFT(4)} src="./img/mda_m.png" />
+          <img onClick={()=>handleChooseNFT(5)} src="./img/mda_f.png" />
+        </div>
+        <div className="popup" style={{display:popup?"grid":"none"}}>
+          <div></div>
+          <div>
+            <a href="https://twitter.com/SeekersAlliance" target="_blank"><img src="./img/x_button.png" /></a>
+            <a href="https://discord.gg/PRPC9xJxPW" target="_blank"><img src="./img/dc_button.png" /></a>
+          </div>
+        </div>
       </div>
     </div>
     </>
