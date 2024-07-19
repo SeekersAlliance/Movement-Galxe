@@ -42,7 +42,7 @@ const Home = () => {
     console.log(transaction);
     const response = await signAndSubmitTransaction(transaction).catch (error => {
       console.log("error",error);
-      window.alert("Generic error message:\nOops, something went wrong. Please try again.\nIf the problem persists, contact Seekers Alliance support in our Discord.\n");
+      window.alert("Oops, something went wrong.\nPlease make sure you have APT for gas and try again.");
       router.push("/");
     });
     if(response == undefined) {
