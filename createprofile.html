@@ -1,0 +1,67 @@
+<html lang="en">
+  <head>
+    <meta property="og:type" content="website" >
+    <meta property="og:title" content="Seekers Alliance" >
+    <link rel="icon" href="./favicon.ico">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <title>Seekers Alliance</title>
+    <style>
+
+      #createprofile .index-content {
+    	  grid-template-rows: 70% 10% 16%;
+	      grid-template-areas: 
+	      "ctt space"
+    	  "enterCode space"
+	      "nxtbt space";
+      }
+
+      #code-box {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #code-box img {
+        width: 27.8%;
+        height: auto;
+        aspect-ratio: 10 / 1;
+        margin-right: 5px;
+      }
+      #code-box input {
+        width: 39%;
+        height: auto;
+        aspect-ratio: 20/3;
+      }
+      #createprofile #next_bt {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+      }
+      #createprofile #next_bt img {
+        width: 50%;
+        height: auto;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <div id="createprofile" class="index container-block bgsize">
+      <div class="index-content">
+        <div></div>
+        <div></div>
+        <div id="code-box">
+          <img src="./img/entercode_text.png">
+          <input type="text" />
+        </div>
+        <div></div>
+        <div id="next_bt">
+          <a href="./faction.html" target="_self"><img src="./img/next_button.png"></a>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </body>
+</html>
