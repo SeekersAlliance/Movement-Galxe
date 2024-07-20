@@ -40,7 +40,6 @@ const Home = () => {
     const response = await signAndSubmitTransaction(transaction).catch (error => {
       console.log("error",error);
       window.alert("Oops, something went wrong.\nPlease make sure you have APT for gas and try again.");
-      router.push("/");
     });
     if(response == undefined) {
       return;

@@ -85,7 +85,65 @@ a:active {
 	left: 2%;
   }
 
+.index {
+	background-image: url("../../public/img/bg.jpg");
+	min-width: unset;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: flex-start;
+}
+.index.bgsize {
+	background-size: auto 100%;
+}
+.index-content {
+	  width: 100%;
+	  height: auto;
+	  max-width: 1920px;
+	  max-height: 1080px;
+	  aspect-ratio: 16 / 9;
+	  display: grid;
+	  grid-template-rows: 56% 40%;
+	  grid-template-columns: 55% 45%;
+	  margin: 0 auto;
+}
+#createprofile .index-content {
+	grid-template-rows: 70% 10% 16%;
+	grid-template-areas: 
+	"ctt space"
+	"enterCode space"
+	"nxtbt space";
+}
 
+#code-box {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#code-box img {
+  width: 27.8%;
+  height: auto;
+  aspect-ratio: 10 / 1;
+  margin-right: 5px;
+}
+#code-box input {
+  width: 39%;
+  height: auto;
+  aspect-ratio: 20/3;
+}
+#createprofile #next_bt {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+#createprofile #next_bt img {
+margin-top: 30px;
+  width: 50%;
+  height: auto;
+}
 .page-title {
 	width: 100%;
 	height: fit-content;

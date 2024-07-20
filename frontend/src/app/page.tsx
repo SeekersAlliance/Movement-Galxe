@@ -30,7 +30,7 @@ export default function Home() {
         await disconnect();
         router.push("/");
       }else{
-        router.push("/faction");
+        router.push("/createprofile");
       }
     };
     checkTestnet();
