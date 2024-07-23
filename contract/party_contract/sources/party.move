@@ -122,6 +122,12 @@ module party::party{
         let factions = borrow_global<Factions>(@party);
         table::contains(&factions.player_name, sender)
     }
+    #[view]
+    public fun check_player_enroll_faction(sender: address):bool acquires Factions {
+
+        let factions = borrow_global<Factions>(@party);
+        table::contains(&factions.faction, sender)
+    }
 
     
     #[test(admin = @0x2, buyer = @0x3, seller = @0x4)]

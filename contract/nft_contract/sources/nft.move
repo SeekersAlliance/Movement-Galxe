@@ -231,6 +231,12 @@ module nft::nft{
             return string::utf8(b"NOT FOUND")
         }
     }
+    #[view]
+    public fun check_player_minted(sender: address):bool acquires History {
+
+        let history = borrow_global<History>(@nft);
+        table::contains(&history.history, sender)
+    }
 
 
     
