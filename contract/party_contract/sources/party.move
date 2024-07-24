@@ -117,16 +117,26 @@ module party::party{
         name
     }
     #[view]
-    public fun check_player_enroll_name(sender: address):bool acquires Factions {
+    public fun check_player_enroll_name(sender: address):u32 acquires Factions {
 
         let factions = borrow_global<Factions>(@party);
-        table::contains(&factions.player_name, sender)
+        if(table::contains(&factions.player_name, sender)){
+            return 1
+        }else{
+            return 0
+        }
+        
+        
     }
     #[view]
-    public fun check_player_enroll_faction(sender: address):bool acquires Factions {
+    public fun check_player_enroll_faction(sender: address):u32 acquires Factions {
 
         let factions = borrow_global<Factions>(@party);
-        table::contains(&factions.faction, sender)
+        if(table::contains(&factions.faction, sender)){
+            return 1
+        }else{
+            return 0
+        }
     }
 
     

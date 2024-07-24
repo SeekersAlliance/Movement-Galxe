@@ -1,4 +1,4 @@
 
 
-export const nftContractAddress = "0x41e7f4a9847f0455596144f00b937e7b26b9d1ee12b1a3f284f3810d22ba6b35";
-export const partyContractAddress = "0x6cb48b4f4accd163c69c0984848bd74233318decec68dcf7d35df73e5d62de41";
+export const nftContractAddress = "0x6427626f89061e35e3e265e8574ec231da9bacf85cd8710db436d5720e56a422";
+export const partyContractAddress = "0x75cb2738b12a9c3c73de24c65f68f27d5ac9df32bc7ba8312c4aeb20d7c2b72d";

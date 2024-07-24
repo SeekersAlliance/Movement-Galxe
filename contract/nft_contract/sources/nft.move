@@ -232,10 +232,14 @@ module nft::nft{
         }
     }
     #[view]
-    public fun check_player_minted(sender: address):bool acquires History {
+    public fun check_player_minted(sender: address):u32 acquires History {
 
         let history = borrow_global<History>(@nft);
-        table::contains(&history.history, sender)
+        if(table::contains(&history.history, sender)){
+            return 1
+        }else{
+            return 0
+        }
     }
 
 
