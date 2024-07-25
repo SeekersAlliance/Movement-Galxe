@@ -25,8 +25,8 @@ export default function Home() {
   React.useEffect(() => {
     const checkTestnet = async () => {
       if(network == null) return;
-      if (network?.name != "testnet") {
-        window.alert("Please connect to testnet.");
+      if (network?.chainId != "27") {
+        window.alert("Please connect to Movement testnet.");
         await disconnect();
         router.push("/");
       }else{
@@ -40,21 +40,23 @@ export default function Home() {
 
 
   const handleConnectWallet = async () => {
-    let petra = wallets?.filter((w) => w.name == "Petra")[0];
-    console.log(petra);
-    console.log(network);
+    let nightly = wallets?.filter((w) => w.name == "Nightly")[0];
+    console.log(nightly);
+    
     
     if(connected && network.name == "testnet") {
       console.log("connected");
       router.push("/faction");
     }
-    if (petra.readyState == "NotDetected") {
-      window.alert("Petra wallet not found.");
-      window.open("https://chromewebstore.google.com/detail/petra-aptos-wallet/ejjladinnckdgjemekebdpeokbikhfci", "_blank");
+    if (nightly.readyState == "NotDetected") {
+      window.alert("Nightly wallet not found.");
+      window.open("https://chromewebstore.google.com/detail/nightly/fiikommddbeccaoicoejoniammnalkfa", "_blank");
       return
     }
-    let res = await connect(petra?.name);
+    let res = await connect(nightly?.name);
   }
+  console.log("connected", connected);
+  console.log("network", network);
   return (
     <div id="index" className="container-block bgsize">
       <div id="index-content">

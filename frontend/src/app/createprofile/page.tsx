@@ -23,7 +23,7 @@ export default function Home() {
     wallets,
     signAndSubmitTransaction,
   } = useWallet();
-  const config = new AptosConfig({ network: Network.TESTNET });
+  const config = new AptosConfig({ network: Network.CUSTOM });
   const aptos = new Aptos(config);
 
   React.useEffect(() => {
@@ -68,8 +68,8 @@ export default function Home() {
       router.push("/faction");
   }
   return (
-    <div id="createprofile" class="index container-block bgsize">
-      <div class="index-content">
+    <div id="createprofile" className="index container-block bgsize">
+      <div className="index-content">
         <div></div>
         <div></div>
         <div id="code-box">

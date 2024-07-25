@@ -20,7 +20,7 @@ const Home = () => {
     wallets,
     signAndSubmitTransaction,
   } = useWallet();
-  const config = new AptosConfig({ network: Network.TESTNET });
+  const config = new AptosConfig({ network: Network.CUSTOM });
   const aptos = new Aptos(config);
 
   React.useEffect(() => {

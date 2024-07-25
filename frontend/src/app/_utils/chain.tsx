@@ -13,8 +13,7 @@ const {
     signMessage,
     signMessageAndVerify,
   } = useWallet();
-const aptosConfig = new AptosConfig({ network: Network.MAINNET });
-const aptos = new Aptos(aptosConfig);
+
 
 export const connectWallet = async () => {
     console.log(wallets);
