@@ -25,8 +25,8 @@ export default function Home() {
   React.useEffect(() => {
     const checkTestnet = async () => {
       if(network == null) return;
-      if (network?.chainId != "27") {
-        window.alert("Please connect to Movement testnet.");
+      if (network?.chainId != "177") {
+        window.alert("Please connect to the Movement Porto Testnet.");
         await disconnect();
         router.push("/");
       }else{
@@ -55,8 +55,8 @@ export default function Home() {
     }
     let res = await connect(nightly?.name);
   }
-  console.log("connected", connected);
-  console.log("network", network);
+  /* console.log("connected", connected);
+  console.log("network", network); */
   return (
     <div id="index" className="container-block bgsize">
       <div id="index-content">

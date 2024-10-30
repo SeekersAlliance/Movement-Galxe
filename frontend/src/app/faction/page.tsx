@@ -39,7 +39,7 @@ const Home = () => {
     console.log(transaction);
     const response = await signAndSubmitTransaction(transaction).catch (error => {
       console.log("error",error);
-      window.alert("Oops, something went wrong.\nPlease make sure you have APT for gas and try again.");
+      window.alert("Oops, something went wrong.\nPlease make sure you have $MOVE for gas and try again.");
     });
     if(response == undefined) {
       return;
