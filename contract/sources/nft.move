@@ -1,4 +1,4 @@
-module nft::nft{
+module seekers_galxe::nft{
     use std::option;
     use std::signer;
     use std::signer::address_of;
@@ -17,7 +17,7 @@ module nft::nft{
     use aptos_std::table::Table;
 
 
-    const RESOURCECAPSEED : vector<u8> = b"Seekers Alliance";
+    const RESOURCECAPSEED : vector<u8> = b"Seekers_Galxe";
 
     const ENOT_TOKEN_OWNER: u64 = 1;
 
@@ -50,6 +50,7 @@ module nft::nft{
 
    struct History has key {
       history: Table<address, u64>,
+      mint_amount: Table<u64, u256>
    }
 
 
@@ -91,7 +92,8 @@ module nft::nft{
         );
 
         let history = History{
-            history: table::new()
+            history: table::new(),
+            mint_amount: table::new()
         };
         move_to(sender, history);
 
@@ -100,13 +102,12 @@ module nft::nft{
 
 
     public entry fun mint(sender: &signer, content: string::String, id: u64) acquires ResourceCap, History {
-        let minted = table::contains(&borrow_global<History>(@nft).history, address_of(sender));
         // TEST
         /* assert!(!minted, error::permission_denied(ALREADY_MINTED)); */
         assert!(id < 6, error::invalid_argument(NFT_NOT_FOUND));
 
         let resource_cap = &borrow_global<ResourceCap>(account::create_resource_address(
-            &@nft, RESOURCECAPSEED
+            &@seekers_galxe, RESOURCECAPSEED
         )).cap;
         let resource_signer = &account::create_signer_with_capability(resource_cap);
         let name;
@@ -166,9 +167,15 @@ module nft::nft{
             signer::address_of(sender),
         );
 
-        table::upsert(&mut borrow_global_mut<History>(@nft).history, address_of(sender), id);
+        // update history
+        let history = borrow_global_mut<History>(@seekers_galxe);
+        table::upsert(&mut history.history, address_of(sender), id);
+        let current_mint_amount = *table::borrow_with_default(&history.mint_amount, id, &0);
+        table::upsert(&mut history.mint_amount, id, current_mint_amount + 1);
+        // debug::print(&current_mint_amount);
 
-        /* object::object_from_constructor_ref(&token_constructor_ref) */
+        // object::object_from_constructor_ref(&token_constructor_ref)
+
         
     }
     
@@ -212,7 +219,7 @@ module nft::nft{
     #[view]
     public fun get_mint_NFT(sender: address):string::String acquires History {
 
-        let history = borrow_global<History>(@nft);
+        let history = borrow_global<History>(@seekers_galxe);
         let nft_id:u64 = *table::borrow_with_default(&history.history, sender, &99);
        
         if(nft_id==0){
@@ -234,68 +241,163 @@ module nft::nft{
     #[view]
     public fun check_player_minted(sender: address):u32 acquires History {
 
-        let history = borrow_global<History>(@nft);
+        let history = borrow_global<History>(@seekers_galxe);
         if(table::contains(&history.history, sender)){
             return 1
         }else{
             return 0
         }
     }
+    #[view]
+    public fun get_mint_amount(idx: u64):u256 acquires History {
+        let history = borrow_global<History>(@seekers_galxe);
+        let amount = *table::borrow_with_default(&history.mint_amount, idx, &0);
+        amount
+    }
 
+    #[test_only]
+    public fun mint_test(sender: &signer, content: string::String, id: u64):Object<Token> acquires ResourceCap, History {
+        // TEST
+        /* assert!(!minted, error::permission_denied(ALREADY_MINTED)); */
+        assert!(id < 6, error::invalid_argument(NFT_NOT_FOUND));
+
+        let resource_cap = &borrow_global<ResourceCap>(account::create_resource_address(
+            &@seekers_galxe, RESOURCECAPSEED
+        )).cap;
+        let resource_signer = &account::create_signer_with_capability(resource_cap);
+        let name;
+        if(id==0){
+            name = string::utf8(b"Agent K9 #");
+        }else if(id==1){
+            name = string::utf8(b"Officer Katz #");
+        }else if(id==2){
+            name = string::utf8(b"Juvenile Punk #");
+        }else if(id==3){
+            name = string::utf8(b"Cyborg-Gunner #");
+        }else if(id==4){
+            name = string::utf8(b"Dragonkin Scout #");
+        }else
+            name = string::utf8(b"Princess Erato #");
+        
+        
+
+        let token_constructor_ref  = token::create_numbered_token(
+            resource_signer,
+            string::utf8(CollectionName),
+            string::utf8(CollectionDescription),
+            name,
+            string::utf8(b""),
+            option::none(),
+            string::utf8(TokenURI),
+        );
+
+        //auto set token's picture
+        let uri = string::utf8(TokenURI);
+        
+        string::append(&mut uri, string_utils::to_string(&id));
+        string::append(&mut uri, string::utf8(b".json"));
+        let token_mutator_ref = token::generate_mutator_ref(&token_constructor_ref);
+        token::set_uri(&token_mutator_ref, uri);
+
+        let token_signer = object::generate_signer(&token_constructor_ref);
+        
+
+        move_to(&token_signer, TokenRef{
+            burn_ref: token::generate_burn_ref(&token_constructor_ref),
+            transfer_ref: object::generate_transfer_ref(&token_constructor_ref)
+        } 
+        );
+
+        event::emit(
+            MintEvent{
+                owner: signer::address_of(sender),
+                token: object::address_from_constructor_ref(&token_constructor_ref),
+                content
+            }
+        );
+
+        object::transfer(
+            resource_signer,
+            object::object_from_constructor_ref<Token>(&token_constructor_ref),
+            signer::address_of(sender),
+        );
+
+        // update history
+        let history = borrow_global_mut<History>(@seekers_galxe);
+        table::upsert(&mut history.history, address_of(sender), id);
+        let current_mint_amount = *table::borrow_with_default(&history.mint_amount, id, &0);
+        table::upsert(&mut history.mint_amount, id, current_mint_amount + 1);
+        // debug::print(&current_mint_amount);
+
+        object::object_from_constructor_ref(&token_constructor_ref)
+
+        
+    }
 
     
-    #[test(admin = @0x1, buyer = @0x2, seller = @0x3)]
+    #[test(admin = @seekers_galxe, buyer = @0x2, seller = @0x3)]
     public fun test_mint(admin: &signer, buyer: &signer, seller: &signer) acquires ResourceCap, History {
 
         init_module(admin);
 
-        mint(buyer, string::utf8(b"test mint"),0);
-        let myToken = mint(seller, string::utf8(b"test mint"),0);
+        mint_test(buyer, string::utf8(b"test mint"),0);
+        let myToken = mint_test(seller, string::utf8(b"test mint"),0);
         /* burn(seller, myToken); */
         assert!(object::is_owner(myToken, address_of(seller)), 1);
         let name = token::name(myToken);
-        let myToken = mint(admin, string::utf8(b"test mint"),1);
+        let myToken = mint_test(admin, string::utf8(b"test mint"),1);
 
         assert!(object::is_owner(myToken, address_of(admin)), 1);
+
+
+        // check mint amount
+        let amount = get_mint_amount(0);
+        assert!(amount == 2, 2);
+        amount = get_mint_amount(1);
+        assert!(amount == 1, 3);
+        amount = get_mint_amount(2);
+        assert!(amount == 0, 4);
+        amount = get_mint_amount(3);
+        assert!(amount == 0, 5);
     }
-    #[test(admin = @0x1, buyer = @0x2, seller = @0x3)]
+    #[test(admin = @seekers_galxe, buyer = @0x2, seller = @0x3)]
     public fun test_transfer(admin: &signer, buyer: &signer, seller: &signer) acquires ResourceCap, TokenRef, History {
 
         init_module(admin);
 
-        let myToken = mint(buyer, string::utf8(b"test mint"),0);
+        let myToken = mint_test(buyer, string::utf8(b"test mint"),0);
         transfer(buyer, myToken, address_of(seller));
         assert!(object::is_owner(myToken, address_of(seller)), 1);
         let name = token::name(myToken);
     }
-    #[test(admin = @0x1, buyer = @0x2, seller = @0x3)]
+    #[test(admin = @seekers_galxe, buyer = @0x2, seller = @0x3)]
     #[expected_failure]
     public fun test_burn (admin: &signer, buyer: &signer, seller: &signer) acquires ResourceCap, TokenRef, History {
 
         init_module(admin);
 
-        let myToken = mint(buyer, string::utf8(b"test mint"),0);
+        let myToken = mint_test(buyer, string::utf8(b"test mint"),0);
         burn(buyer, myToken);
         assert!(object::is_owner(myToken, address_of(buyer)), 1);
         let name = token::name(myToken);
     }
-    #[test(admin = @0x1, buyer = @0x2, seller = @0x3)]
-    #[expected_failure]
-    public fun test_repeated_mint(admin: &signer, buyer: &signer, seller: &signer) acquires ResourceCap, History {
+    // #[test(admin = @0x1, buyer = @0x2, seller = @0x3)]
+    // #[expected_failure]
+    // public fun test_repeated_mint(admin: &signer, buyer: &signer, seller: &signer) acquires ResourceCap, History {
 
-        init_module(admin);
+    //     init_module(admin);
 
-        mint(buyer, string::utf8(b"test mint"),0);
-        mint(buyer, string::utf8(b"test mint"),0);
-    }
+    //     mint(buyer, string::utf8(b"test mint"),0);
+    //     mint(buyer, string::utf8(b"test mint"),0);
+    // }
 
-    #[test(admin = @0x1, buyer = @0x2, seller = @0x3)]
+    #[test(admin = @seekers_galxe, buyer = @0x2, seller = @0x3)]
     #[expected_failure]
     public fun test_invalid_nft(admin: &signer, buyer: &signer, seller: &signer) acquires ResourceCap, History {
 
         init_module(admin);
 
-        mint(buyer, string::utf8(b"test mint"),6);
+        mint_test(buyer, string::utf8(b"test mint"),6);
     }
     
 

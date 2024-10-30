@@ -1,20 +1,21 @@
 [package]
-name = "party_contract"
+name = "seekers-galxe"
 version = "1.0.0"
 authors = []
 
 [addresses]
-party="_"
+seekers_galxe="_"
+
 [dev-addresses]
 
 [dependencies.AptosFramework]
-git = "https://github.com/aptos-labs/aptos-core.git"
-rev = "mainnet"
+git = "https://github.com/movementlabsxyz/aptos-core.git"
+rev = "movement"
 subdir = "aptos-move/framework/aptos-framework"
 
 [dependencies.AptosTokenObjects]
-git = "https://github.com/aptos-labs/aptos-core.git"
-rev = "mainnet"
+git = "https://github.com/movementlabsxyz/aptos-core.git"
+rev = "movement"
 subdir = "aptos-move/framework/aptos-token-objects"
 
 [dev-dependencies]
